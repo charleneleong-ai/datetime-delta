@@ -19,7 +19,10 @@ install:
 	poetry shell
 	## Installing from poetry.lock - remove old dependencies no longer present in the lock file
 	poetry install --remove-untracked
+	poetry export -f requirements.txt --output requirements.txt
+	peodd -o requirements-dev.txt
 	pre-commit install
+
 
 ## Update dependencies in pyproject.toml
 update:
