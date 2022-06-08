@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -32,5 +31,5 @@ jobs:
         run: |
           python -c "import sys; print(sys.version)"
           python -m pip install --upgrade pip
-          python -m pip install requirements-dev.txt
+          python -m pip install -r requirements-dev.txt
           python -m pytest tests/unit -vv -rs -x
