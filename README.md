@@ -48,3 +48,43 @@ For example, a command line application which takes two dates via stdin and retu
 You're welcome to show off your skills by getting a little more fancy. Especially if you can demonstrate applicable technology and design choices relevant to your role.
 
 A distributed machine learning solution running on the blockchain with virtual reality interface would be impressive; but overkill!
+
+
+
+## Solution
+
+## 🛠️ Requirements
+
+- [Python ^3.8.0](https://www.python.org/downloads/release/python-380/)
+
+
+## 🛠️ Getting Started
+
+Installation
+
+```zsh
+❯ make install
+```
+
+To run the script
+
+
+```zsh
+❯ python datetime_delta.py -v DEBUG -d1 2020-02-28 -d2 2024-02-29
+
+Calculating days between 2020-02-28 and 2024-02-29 CE/AD.
+debug: 2020 is a leap year
+debug: 2024 is a leap year
+1461 days
+```
+
+To run tests
+
+
+```zsh
+❯ make test
+
+or if you would like to customize test params
+❯ python -m pytest tests/unit -vv -x -rs
+
+```
