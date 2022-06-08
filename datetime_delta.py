@@ -53,14 +53,8 @@ def gregorian_to_jdn(year: int, month: int, day: int) -> int:
     - November 24, 4714 BC in the proleptic Gregorian calendar at 00:00 in UTC
     Julian days are counted as integers continuously until the present time.
     This makes it very easy to compare relative times of events and do arithmetic between days.
-    Ref: https://orbital-mechanics.space/reference/julian-date.html
+    Ref: https://quasar.as.utexas.edu/BillInfo/JulianDatesG.html
     """
-    # A = (month-14)//12
-    # B = 1461*(year+4800+A)
-    # C = 367*(month-2-(12*A))
-    # E = (year+4900+A)//100
-    # jdn = B//4 + C//12 - (3*E)//4 + day - 32075
-
     A = year // 100
     B = A // 4
     C = 2 - A + B
