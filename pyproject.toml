@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "datetime-delta"
+version = "0.1.0"
+description = "DateTime Delta"
+authors = ["Charlene Leong <charleneleong84@gmail.com>"]
+
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.10"
+click-log = "^0.3.2"
+
+
+[tool.poetry.dev-dependencies]
+peodd = "^0.3.0"
+autopep8 = "^1.5.7"
+pytest = "^7.1.2"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0, <1.0.4"]
+build-backend = "poetry.core.masonry.api"
