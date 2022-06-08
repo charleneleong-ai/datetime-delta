@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
-#####
 
 import logging
 from typing import Union, Tuple, List
@@ -23,8 +22,12 @@ logger = logging.getLogger(__name__)
 @click_log.simple_verbosity_option()
 @click.option("--date1", "-d1", help="Date of format `YYYY-MM-DD`", type=str)
 @click.option("--date2", "-d2", help="Date of format `YYYY-MM-DD`", type=str)
+def cli(date1: str, date2: str):
+    return main(date1=date1, date2=date2)
+
+
 def main(date1: str, date2: str):
-    logger.info(f"Calculating days between - {date1} and {date2} CE/AD.")
+    logger.info(f"Calculating days between {date1} and {date2} CE/AD.")
 
     if is_valid_date_format(date1) and is_valid_date_format(date2):
         y1, m1, d1 = map(int, date1.split("-"))
@@ -35,6 +38,8 @@ def main(date1: str, date2: str):
             days_diff = 0
 
         logger.info(f"{days_diff} days")
+        return days_diff
+    return None
 
 
 # ==================================================
@@ -50,20 +55,26 @@ def gregorian_to_jdn(year: int, month: int, day: int) -> int:
     This makes it very easy to compare relative times of events and do arithmetic between days.
     Ref: https://orbital-mechanics.space/reference/julian-date.html
     """
-    A = (month - 14) // 12
-    B = 1461 * (year + 4800 + A)
-    C = 367 * (month - 2 - (12 * A))
-    E = (year + 4900 + A) // 100
+    # A = (month-14)//12
+    # B = 1461*(year+4800+A)
+    # C = 367*(month-2-(12*A))
+    # E = (year+4900+A)//100
+    # jdn = B//4 + C//12 - (3*E)//4 + day - 32075
 
-    jdn = B // 4 + C // 12 - (3 * E) // 4 + day - 32075
+    A = year // 100
+    B = A // 4
+    C = 2 - A + B
+    E = 365.25 * (year + 4716)
+    F = 30.6001 * (month + 1)
+    jdn = int(C + day + E + F - 1524.5)
+
     return jdn
 
 
 def is_valid_date_format(date_str: str):
     """Validate date is of valid format YYYY-MM-DD"""
-    ## Basic regex check
-    date_regex = "^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
-    if bool(re.search(date_regex, date_str)):
+
+    if is_valid_date_regex(date_str):
         if is_valid_date(date_str):
             return date_str
         else:
@@ -71,7 +82,9 @@ def is_valid_date_format(date_str: str):
             logger.error(f"{err}")
             raise ValueError(f"{err}")
     else:
-        err = f"{date_str} is an invalid date format. Please enter in format YYYY-MM-DD"
+        err = (
+            f"{date_str} is an invalid date format. Please enter in format YYYY-MM-DD."
+        )
         logger.error(f"{err}")
         raise ValueError(f"{err}")
 
@@ -79,12 +92,27 @@ def is_valid_date_format(date_str: str):
 def is_valid_date(date_str: str):
     """Check for date interval and leap years"""
     y, m, d = map(int, date_str.split("-"))
-    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    days_in_month = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     if (y % 4 == 0) and (y % 400 == 0 or y % 100 != 0):
         logger.debug(f"{y} is a leap year")
-        days_in_month[1] = 29
-    return 0 <= y and 0 <= m - 1 <= 11 and 0 <= d <= days_in_month[m - 1]
+        days_in_month[2] = 29
+
+    if not (1 <= m <= 12):
+        logger.error(f"{m} is not in the correct range of 1-12.")
+        return False
+    if not (1 <= d <= days_in_month[m]):
+        logger.error(
+            f"{d} is not in the correct range of 1-{days_in_month[m]} for month {m} in year {y}."
+        )
+        return False
+
+    return True
+
+
+def is_valid_date_regex(date_str: str):
+    date_regex = r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
+    return bool(re.search(date_regex, date_str))
 
 
 if __name__ == "__main__":
-    main()
+    cli()
