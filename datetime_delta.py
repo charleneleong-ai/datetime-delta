@@ -22,20 +22,38 @@ logger = logging.getLogger(__name__)
 @click_log.simple_verbosity_option()
 @click.option("--date1", "-d1", help="Date of format `YYYY-MM-DD`", type=str)
 @click.option("--date2", "-d2", help="Date of format `YYYY-MM-DD`", type=str)
-def cli(date1: str, date2: str):
-    return main(date1=date1, date2=date2)
+@click.option(
+    "--format1",
+    "-f1",
+    help="BC/BCE or AD/CE",
+    default="CE",
+    type=click.Choice(["AD", "BC", "CE", "BCE"]),
+    show_default=True,
+)
+@click.option(
+    "--format2",
+    "-f2",
+    help="BC/BCE or AD/CE",
+    default="CE",
+    type=click.Choice(["AD", "BC", "CE", "BCE"]),
+    show_default=True,
+)
+def cli(date1: str, date2: str, format1: str, format2: str):
+    return main(date1=date1, date2=date2, format1=format1, format2=format2)
 
 
-def main(date1: str, date2: str):
-    logger.info(f"Calculating days between {date1} and {date2} CE/AD.")
+def main(date1: str, date2: str, format1: str, format2: str):
+    logger.info(f"Calculating days between {date1} {format1} and {date2} {format2}.")
 
     if is_valid_date_format(date1) and is_valid_date_format(date2):
         y1, m1, d1 = map(int, split_date(date1))
         y2, m2, d2 = map(int, split_date(date2))
 
-        if is_within_date_limit(y1, m1, d1):
-            print(gregorian_to_jdn(y1, m1, d1))
-            print(gregorian_to_jdn(y2, m2, d2))
+        if format in ["BC", "BCE"]:
+            y1 = bc_year_to_ayn(y1)
+            y2 = bc_year_to_ayn(y2)
+
+        if is_within_date_limit(y1, m1, d1) and is_within_date_limit(y2, m2, d2):
             days_diff = (
                 abs(gregorian_to_jdn(y1, m1, d1) - gregorian_to_jdn(y2, m2, d2)) - 1
             )
@@ -45,6 +63,7 @@ def main(date1: str, date2: str):
             logging.info(f"{days_diff} days")
 
             # ## Short test ##
+            ## Datetime lib only handles dates after 1 AD
             # from datetime import datetime
 
             # date1_dt = datetime(y1, m1, d1)
@@ -63,6 +82,11 @@ def main(date1: str, date2: str):
 # ==================================================
 # ============= Helper functions ===================
 # ==================================================
+
+
+def bc_year_to_ayn(year: int):
+    """Converting years before 1AD to astronomical year number"""
+    return (year * -1) + 1
 
 
 def is_valid_date_format(date_str: str):
