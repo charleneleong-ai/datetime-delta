@@ -35,7 +35,7 @@ from datetime_delta import (
 )
 def test_main_success(date1, date2, expected_days):
 
-    assert main(date1=date1, date2=date2) == expected_days
+    assert main(date1=date1, date2=date2, format1="CE", format2="CE") == expected_days
 
 
 @pytest.mark.parametrize(
@@ -58,7 +58,7 @@ def test_main_success(date1, date2, expected_days):
 def test_main_fail(date1, date2, expected):
     with pytest.raises(expected) as e_info:
         print(e_info)
-        main(date1=date1, date2=date2)
+        main(date1=date1, date2=date2, format1="CE", format2="CE")
 
 
 @pytest.mark.parametrize(
