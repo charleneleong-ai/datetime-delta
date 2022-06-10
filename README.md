@@ -78,12 +78,11 @@ Input dates must be
 - no earlier than Mar 1st 4713 BC (year 1 of the Julian Period).
 
 ```zsh
-❯ python datetime_delta.py -v DEBUG -d1 2020-02-28 -d2 2024-02-29
+❯ python datetime_delta.py -v DEBUG -d1 4713-02-15 -f1 BC -d2 2024-02-29
 
-Calculating days between 2020-02-28 and 2024-02-29 CE/AD.
-debug: 2020 is a leap year
+Calculating days between 4713-02-15 BC and 2024-02-29 AD.
 debug: 2024 is a leap year
-1461 days
+982122 days
 ```
 
 To run tests
