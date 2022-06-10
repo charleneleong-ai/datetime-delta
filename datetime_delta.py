@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
     "--format1",
     "-f1",
     help="BC/BCE or AD/CE",
-    default="CE",
+    default="AD",
     type=click.Choice(["AD", "BC", "CE", "BCE"]),
     show_default=True,
 )
@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
     "--format2",
     "-f2",
     help="BC/BCE or AD/CE",
-    default="CE",
+    default="AD",
     type=click.Choice(["AD", "BC", "CE", "BCE"]),
     show_default=True,
 )

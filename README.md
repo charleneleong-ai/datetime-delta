@@ -75,7 +75,7 @@ Input dates must be
     ```
     ❯ python datetime_delta.py -v DEBUG -d1 4713-02-15 -f1 BC -d2 2024-02-29 -f2 AD
     ```
-- no earlier than Mar 1st 4713 BC
+- no earlier than Mar 1st 4713 BC (year 1 of the Julian Period).
 
 ```zsh
 ❯ python datetime_delta.py -v DEBUG -d1 2020-02-28 -d2 2024-02-29
