@@ -48,3 +48,50 @@ For example, a command line application which takes two dates via stdin and retu
 You're welcome to show off your skills by getting a little more fancy. Especially if you can demonstrate applicable technology and design choices relevant to your role.
 
 A distributed machine learning solution running on the blockchain with virtual reality interface would be impressive; but overkill!
+
+
+
+## Solution
+
+## 🛠️ Requirements
+
+- [Python ^3.8.0](https://www.python.org/downloads/release/python-380/)
+
+
+## 🛠️ Getting Started
+
+Installation
+
+```zsh
+❯ make install
+```
+
+To run the script
+
+Input dates must be
+
+- Gregorian date of format `(YYYY-MM-DD)`
+- Date format is by default AD/CE. If you want to compare between BC/BCE dates, you can specify date format like so
+    ```
+    ❯ python datetime_delta.py -v DEBUG -d1 4713-02-15 -f1 BC -d2 2024-02-29 -f2 AD
+    ```
+- no earlier than Mar 1st 4713 BC (year 1 of the Julian Period).
+
+```zsh
+❯ python datetime_delta.py -v DEBUG -d1 4713-02-15 -f1 BC -d2 2024-02-29
+
+Calculating days between 4713-02-15 BC and 2024-02-29 AD.
+debug: 2024 is a leap year
+982122 days
+```
+
+To run tests
+
+
+```zsh
+❯ make test
+
+or if you would like to customize test params
+❯ python -m pytest tests/unit -vv -x -rs
+
+```
