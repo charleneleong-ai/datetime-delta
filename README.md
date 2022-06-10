@@ -68,6 +68,14 @@ Installation
 
 To run the script
 
+Input dates must be
+
+- Gregorian date of format `(YYYY-MM-DD)`
+- years must be of [astronomical year number](https://en.wikipedia.org/wiki/Astronomical_year_numbering) format which follows AD/CE format for years after year 1 BC/BCE where 1 BC==0. eg. 2 BC==−1. eg. 4713 BC (-4712) `-4712-01-01`
+- no earlier than Mar 1st 4713 BC - `(-4712-03-01)`
+
+```zsh
+- after Mar 1st -
 
 ```zsh
 ❯ python datetime_delta.py -v DEBUG -d1 2020-02-28 -d2 2024-02-29
