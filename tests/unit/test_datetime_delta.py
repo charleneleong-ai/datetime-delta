@@ -11,7 +11,7 @@ from datetime_delta import (
     is_valid_date,
     is_leap_year,
     is_valid_date_regex,
-    is_gregorian_date,
+    is_within_date_limit,
     gregorian_to_jdn,
 )
 
@@ -151,31 +151,31 @@ def test_is_valid_date_regex(date_str, expected):
 @pytest.mark.parametrize(
     ["year", "month", "day", "expected"],
     [(2000, 1, 1, True)],
-    ids=["valid_gregorian_date 2000-01-01"],
+    ids=["valid_date_limit 2000-01-01"],
 )
-def test_is_gregorian_date_success(year, month, day, expected):
-    assert is_gregorian_date(year, month, day) == expected
+def test_is_within_date_limit_success(year, month, day, expected):
+    assert is_within_date_limit(year, month, day) == expected
 
 
 @pytest.mark.parametrize(
     ["year", "month", "day", "expected"],
     [
-        (1500, 1, 1, ValueError),
-        (1582, 10, 14, ValueError),
+        (-4713, 1, 1, ValueError),
+        (-4720, 10, 14, ValueError),
     ],
-    ids=["invalid_gregorian_date 1500-01-01", "invalid_gregorian_date 1582-10-14"],
+    ids=["invalid_date_limit 1500-01-01", "invalid_date_limit 1582-10-14"],
 )
-def test_is_gregorian_date_fail(year, month, day, expected):
+def test_is_within_date_limit_fail(year, month, day, expected):
     with pytest.raises(expected) as e_info:
         print(e_info)
-        is_gregorian_date(year, month, day)
+        is_within_date_limit(year, month, day)
 
 
 @pytest.mark.parametrize(
     ["year", "month", "day", "expected"],
     [
-        (2020, 2, 28, 2458906),
-        (2024, 2, 29, 2460368),
+        (2020, 2, 28, 2458908),
+        (2024, 2, 29, 2460370),
     ],
     ids=["valid_gregorian_to_jdn 2020-02-28", "valid_gregorian_to_jdn 2024-02-29"],
 )
